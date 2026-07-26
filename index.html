@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARC-Combustion — Question Submission</title>
+  <meta name="description" content="Submit candidate questions for an ARC-AGI-style benchmark in the combustion domain.">
+  <meta name="robots" content="index, nofollow">
+  <link rel="icon" type="image/gif" href="assets/arc_combustion_logo.gif">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <img src="assets/arc_combustion_logo.gif" alt="ARC-Combustion animated flame logo" class="logo">
+      <div>
+        <p class="kicker">ARC-Combustion</p>
+        <h1>Contribute a Benchmark Question</h1>
+        <p class="lede">
+          We are assembling an ARC-AGI-style evaluation set for combustion science:
+          questions that require genuine physical reasoning, each with a verified answer
+          and a checkable solution path. Submissions are attributed by ORCID iD, stored
+          privately, and reviewed by the benchmark maintainers only.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="backend-banner" class="banner warn hidden" role="alert">
+      Submission backend is not configured yet — you can fill in the form, but final
+      submission is disabled. (Site owner: paste your Apps Script URL into
+      <code>config.js</code>.)
+    </div>
+
+    <form id="submission-form" novalidate>
+      <!-- Honeypot: humans never see or fill this field -->
+      <div class="hp-wrap" aria-hidden="true">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- ============ About you ============ -->
+      <section class="card" id="sec-you">
+        <h2>1 · About you</h2>
+        <p class="hint">
+          Your ORCID iD attributes the question to you and lets us contact you about it.
+          It is never published without your consent.
+        </p>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="orcid">ORCID iD <span class="req">*</span></label>
+            <input type="text" id="orcid" placeholder="0000-0002-1825-0097" inputmode="numeric" autocomplete="off" spellcheck="false">
+            <p class="field-note" id="orcid-status"></p>
+            <p class="hint">Don't have one? <a href="https://orcid.org/register" target="_blank" rel="noopener">Register free at orcid.org</a> — it takes two minutes.</p>
+          </div>
+          <div class="field">
+            <label for="email">Email address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="you@university.edu" autocomplete="email">
+            <p class="hint">Your reference number and a copy of the submission are sent here.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="name">Full name <span class="req">*</span></label>
+            <input type="text" id="name" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="affiliation">Affiliation <span class="opt">(optional)</span></label>
+            <input type="text" id="affiliation" placeholder="Institute / company">
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ The question ============ -->
+      <section class="card" id="sec-question">
+        <h2>2 · Your question</h2>
+        <p class="hint">
+          Good benchmark questions resist pattern-matching: they should require reasoning
+          about combustion physics, not recall of a textbook sentence.
+        </p>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="qtype">Question type <span class="req">*</span></label>
+            <select id="qtype">
+              <option value="">— select —</option>
+              <option value="conceptual">Conceptual (text only)</option>
+              <option value="calculation">Calculation / quantitative</option>
+              <option value="image-based">Image-based (attach the image below)</option>
+              <option value="dataset-based">Dataset-based (attach the data below)</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="difficulty">Difficulty <span class="req">*</span></label>
+            <select id="difficulty">
+              <option value="">— select —</option>
+              <option value="graduate">Graduate coursework</option>
+              <option value="expert">Practicing expert</option>
+              <option value="research-frontier">Research frontier</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="title">Short title <span class="req">*</span></label>
+          <input type="text" id="title" maxlength="120" placeholder="e.g. Lewis-number effect on lean flame-ball stability">
+        </div>
+
+        <div class="field">
+          <label for="qtext">Question text <span class="req">*</span></label>
+          <textarea id="qtext" rows="6" placeholder="State the full question exactly as it should be posed. Markdown/LaTeX notation is fine (e.g. $\phi$, $S_L$)."></textarea>
+        </div>
+
+        <div class="field">
+          <span class="label">Combustion concepts tested <span class="req">*</span> <span class="hint-inline">(select all that apply)</span></span>
+          <div class="checkbox-grid" id="concepts"></div>
+          <input type="text" id="concept-other" placeholder="Other concept (optional)">
+        </div>
+      </section>
+
+      <!-- ============ Answer & verification ============ -->
+      <section class="card" id="sec-answer">
+        <h2>3 · Answer &amp; verification</h2>
+        <p class="hint">
+          A benchmark answer must be checkable. Provide the correct answer <em>and</em> the
+          reasoning path that reaches it, step by step, so a reviewer can verify the route —
+          not just the endpoint.
+        </p>
+
+        <div class="field">
+          <label for="aformat">Answer format <span class="req">*</span></label>
+          <select id="aformat">
+            <option value="">— select —</option>
+            <option value="mcq">Multiple choice</option>
+            <option value="numeric">Numeric (value + units + tolerance)</option>
+            <option value="short">Short answer</option>
+            <option value="derivation">Open response / derivation</option>
+          </select>
+        </div>
+
+        <!-- MCQ -->
+        <div class="afmt hidden" data-afmt="mcq">
+          <div class="field">
+            <span class="label">Answer options <span class="req">*</span> <span class="hint-inline">(mark the correct one)</span></span>
+            <div id="mcq-options"></div>
+            <button type="button" id="mcq-add" class="secondary small">+ Add option</button>
+          </div>
+        </div>
+
+        <!-- Numeric -->
+        <div class="afmt hidden" data-afmt="numeric">
+          <div class="grid-3">
+            <div class="field">
+              <label for="num-value">Correct value <span class="req">*</span></label>
+              <input type="text" id="num-value" placeholder="e.g. 42.3">
+            </div>
+            <div class="field">
+              <label for="num-units">Units <span class="req">*</span></label>
+              <input type="text" id="num-units" placeholder="e.g. cm/s">
+            </div>
+            <div class="field">
+              <label for="num-tol">Acceptable tolerance <span class="req">*</span></label>
+              <input type="text" id="num-tol" placeholder="e.g. ±5 %">
+            </div>
+          </div>
+        </div>
+
+        <!-- Short answer -->
+        <div class="afmt hidden" data-afmt="short">
+          <div class="field">
+            <label for="short-answer">Correct answer <span class="req">*</span></label>
+            <textarea id="short-answer" rows="3" placeholder="The expected answer, plus acceptable equivalent phrasings if any."></textarea>
+          </div>
+        </div>
+
+        <!-- Derivation -->
+        <div class="afmt hidden" data-afmt="derivation">
+          <div class="field">
+            <label for="deriv-answer">Final result <span class="req">*</span></label>
+            <textarea id="deriv-answer" rows="3" placeholder="The final expression/result the derivation must reach."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">Solution path <span class="req">*</span> <span class="hint-inline">(numbered steps: each assumption, equation, or logical move)</span></span>
+          <div id="steps-list"></div>
+          <button type="button" id="step-add" class="secondary small">+ Add step</button>
+        </div>
+
+        <div class="field">
+          <label for="rubric">Grading rubric / why this answer is correct <span class="req">*</span></label>
+          <textarea id="rubric" rows="4" placeholder="How should a response be graded? What does a wrong-but-plausible approach look like, and where does it fail?"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="references">References <span class="opt">(optional, encouraged)</span></label>
+          <textarea id="references" rows="2" placeholder="DOIs, textbook sections, or papers supporting the answer (one per line)."></textarea>
+        </div>
+      </section>
+
+      <!-- ============ Attachments ============ -->
+      <section class="card" id="sec-files">
+        <h2>4 · Attachments <span class="opt">(if your question needs them)</span></h2>
+        <p class="hint">
+          Attach any images (flame photographs, schematics, plots) or datasets (CSV, etc.)
+          the question depends on. Limits: 10&nbsp;MB per file, 20&nbsp;MB total.
+        </p>
+
+        <div class="field">
+          <label for="files" class="file-drop">
+            <strong>Choose files</strong> — png, jpg, svg, webp, gif, csv, tsv, txt, json, xlsx, pdf
+            <input type="file" id="files" multiple accept=".png,.jpg,.jpeg,.gif,.svg,.webp,.csv,.tsv,.txt,.json,.xlsx,.xls,.pdf">
+          </label>
+          <ul id="file-list" class="file-list"></ul>
+          <p class="field-note" id="file-status"></p>
+        </div>
+
+        <div class="field">
+          <label for="dataset-link">Link to a larger dataset <span class="opt">(optional)</span></label>
+          <input type="url" id="dataset-link" placeholder="https://doi.org/… or https://zenodo.org/… (for data over 20 MB)">
+        </div>
+      </section>
+
+      <!-- ============ Submit ============ -->
+      <section class="card" id="sec-submit">
+        <div class="field consent">
+          <label>
+            <input type="checkbox" id="consent">
+            I confirm this question is my own work (or properly referenced), the answer and
+            solution path are correct to the best of my knowledge, and I agree to its use in
+            a combustion reasoning benchmark. <span class="req">*</span>
+          </label>
+        </div>
+
+        <div id="form-error" class="banner error hidden" role="alert"></div>
+
+        <button type="submit" id="btn-submit" class="primary big">Submit question</button>
+        <p class="hint center">You'll get a reference number on screen and a confirmation email.</p>
+      </section>
+    </form>
+
+    <!-- ============ Success ============ -->
+    <section id="success" class="hidden success">
+      <img src="assets/arc_combustion_logo.gif" alt="" class="logo">
+      <h2>Submission received — thank you!</h2>
+      <p>Your reference number is</p>
+      <p class="ref" id="ref-number">—</p>
+      <p>
+        Keep this number for any correspondence about your question.
+        A confirmation email with a copy of your submission is on its way to
+        <span id="success-email"></span> (check your spam folder if it doesn't arrive).
+      </p>
+      <button type="button" id="btn-another" class="secondary">Submit another question</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Submissions are stored privately and are visible only to the benchmark maintainers.
+        Questions about the project? Contact the maintainer listed in the call for contributions.
+      </p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="validation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
