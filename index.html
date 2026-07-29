@@ -33,6 +33,53 @@
       <code>config.js</code>.)
     </div>
 
+    <details class="card example">
+      <summary>Not sure what to submit? See a worked example</summary>
+      <div class="example-body">
+        <p class="ex-meta">
+          <strong>Question type:</strong> Calculation / quantitative &nbsp;·&nbsp;
+          <strong>Difficulty:</strong> Graduate coursework &nbsp;·&nbsp;
+          <strong>Concepts:</strong> Laminar premixed flames; Chemical kinetics
+        </p>
+
+        <h3>Title</h3>
+        <p>Pressure scaling of laminar flame thickness</p>
+
+        <h3>Question text</h3>
+        <p>
+          A laminar premixed flame burns a fuel–air mixture whose overall one-step reaction
+          order is n&nbsp;=&nbsp;1.8. The chamber pressure is doubled while the unburned-gas
+          temperature is held fixed. By what factor does the laminar flame thickness change?
+          Give the ratio δ₂/δ₁.
+        </p>
+
+        <h3>Answer <span class="ex-tag">numeric</span></h3>
+        <p>0.54 &nbsp;·&nbsp; dimensionless (δ₂/δ₁) &nbsp;·&nbsp; tolerance ±0.02</p>
+
+        <h3>Solution path</h3>
+        <ol>
+          <li>From thermal flame theory, flame thickness follows the diffusive–reactive balance δ ≈ α / S<sub>L</sub>, where α is the thermal diffusivity of the unburned mixture.</li>
+          <li>α = λ/(ρ·c<sub>p</sub>); λ and c<sub>p</sub> are nearly pressure-independent while ρ ∝ p, so α ∝ p⁻¹.</li>
+          <li>Scaling analysis of the burning velocity gives S<sub>L</sub> ∝ p<sup>n/2 − 1</sup> for overall reaction order n.</li>
+          <li>Combining: δ ∝ p⁻¹ / p<sup>n/2 − 1</sup> = p<sup>−n/2</sup>.</li>
+          <li>With n = 1.8 and p₂/p₁ = 2: &nbsp;δ₂/δ₁ = 2<sup>−0.9</sup> ≈ 0.54.</li>
+        </ol>
+
+        <h3>Grading rubric</h3>
+        <p>
+          Full credit requires the scaling δ ∝ p<sup>−n/2</sup> to be <em>derived</em> from the
+          α and S<sub>L</sub> pressure dependences, then evaluated. The classic
+          wrong-but-plausible route is assuming δ ∝ 1/p directly (ignoring the kinetic order),
+          which gives 0.50 — numerically close, but reached without the reasoning being tested.
+          That is why the solution path is graded, not just the endpoint; the ±0.02 tolerance
+          excludes 0.50.
+        </p>
+
+        <h3>References</h3>
+        <p>C.K. Law, <em>Combustion Physics</em>, Cambridge Univ. Press (2006), Ch. 7 · S.R. Turns, <em>An Introduction to Combustion</em>, Ch. 8.</p>
+      </div>
+    </details>
+
     <form id="submission-form" novalidate>
       <!-- Honeypot: humans never see or fill this field -->
       <div class="hp-wrap" aria-hidden="true">
@@ -262,7 +309,7 @@
     <div class="container">
       <p>
         Submissions are stored privately and are visible only to the benchmark maintainers.
-        Questions about the project? Contact the maintainer listed in the call for contributions.
+        Questions about the project? Contact at vanshs@umich.edu or the maintainer listed in the call for contributions.
       </p>
     </div>
   </footer>
